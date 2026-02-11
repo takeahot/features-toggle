@@ -1,0 +1,30 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Run Extension",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/extension.js"
+      ],
+      "preLaunchTask": "npm: dev"
+    },
+    {
+      "name": "Run Extension (Watch)",
+      "type": "extensionHost",
+      "request": "launch",
+      "args": [
+        "--extensionDevelopmentPath=${workspaceFolder}"
+      ],
+      "outFiles": [
+        "${workspaceFolder}/dist/extension.js"
+      ],
+      "preLaunchTask": "npm: dev"
+    }
+  ]
+}
+// ~/Library/Application Support/Code/User/globalStorage/roo-ca-publisher.roo-ca/settings/settings.json
