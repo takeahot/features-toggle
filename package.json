@@ -9,10 +9,10 @@
 		"node": ">=20.19.2",
 		"vscode": "^1.84.0"
 	},
- "activationEvents": [
-   "onStartupFinished"
- ],
- "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
@@ -28,9 +28,9 @@
   },
   "devDependencies": {
   "@types/node": "^24.1.0",
-   "esbuild": "^0.25.0",
+  "esbuild": "^0.25.0",
   "typescript": "5.8.3",
-   "@vscode/vsce": "^3.3.2"
+  "@vscode/vsce": "^3.3.2"
   },
   "pnpm": {
 		"overrides": {

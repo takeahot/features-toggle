@@ -40,5 +40,6 @@ bin/*.vsix
 pnpm-workspace.yaml
 
 # Roo internal files
-.roo/
 node_modules
+.roo/
+plans/
