@@ -25,7 +25,7 @@ class FeaturesToggleViewProvider implements vscode.WebviewViewProvider {
 		webviewView.webview.html = this.getHtmlContent(webviewView.webview);
 
 		webviewView.webview.onDidReceiveMessage(
-			message => this.handleMessage(message),
+			(message: any) => this.handleMessage(message),
 			undefined,
 			this.context.subscriptions
 		);
