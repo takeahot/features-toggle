@@ -4,6 +4,7 @@
   "description": "Features toggle extension",
   "version": "1.0.0",
   "publisher": "ProdWay",
+  "packageManager": "pnpm@10.8.1",
   "engines": {
     "node": ">=20.19.2",
 		"vscode": "^1.84.0"
