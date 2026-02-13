@@ -14,15 +14,16 @@
     "webview-ui"
   ],
   "scripts": {
-    "build": "node src/esbuild.mjs",
-    "dev": "node src/esbuild.mjs --watch",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
     "vsix": "vsce package --no-dependencies --allow-missing-repository --out ./bin"
   },
   "devDependencies": {
     "@types/node": "^24.1.0",
+    "@vscode/vsce": "^3.3.2",
     "esbuild": "^0.25.0",
-    "typescript": "5.8.3",
-    "@vscode/vsce": "^3.3.2"
+    "turbo": "^2.8.7",
+    "typescript": "5.8.3"
   },
   "pnpm": {
     "overrides": {

@@ -111,7 +111,7 @@ const buildOptions = {
 			},
 		},
 	],
-	entryPoints: ['src/extension.ts'],
+	entryPoints: [path.join(srcDir, 'extension.ts')],
 	bundle: true,
 	external: [
 		'vscode',
@@ -138,7 +138,7 @@ const buildOptions = {
 	sourcemap: prod ? false : 'inline',
 	sourcesContent: false,
 	platform: 'node',
-	outfile: 'dist/extension.js',
+	outfile: path.join(distDir, 'extension.js'),
 	logLevel: "info",
 };
 
