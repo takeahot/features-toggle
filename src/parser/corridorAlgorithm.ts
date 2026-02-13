@@ -29,11 +29,13 @@ export function calculateCorridor(
     ? sorted[blockIndex + 1].style.x
     : Infinity;
 
-  return {
+  const corridor = {
     left: leftBoundary,
     right: rightBoundary,
     parentBlock: block,
   };
+  console.log('[Corridor] Calculated corridor for block', block.content, ': [', corridor.left, ',', corridor.right, ']');
+  return corridor;
 }
 
 /**
@@ -52,18 +54,22 @@ export function findParent(
   block: BlockWithLevel,
   upperLevelGroups: LevelGroup[]
 ): BlockWithLevel | null {
+  console.log('[Corridor] Finding parent for block at X:', block.style.x, 'checking', upperLevelGroups.length, 'upper levels');
   // Check each level from top to bottom
   for (const group of upperLevelGroups) {
     const corridors = calculateAllCorridors(group);
+    console.log('[Corridor] Level', group.level, 'has', corridors.length, 'corridors');
 
     for (const corridor of corridors) {
       // Check if block's left edge is within corridor
       if (block.style.x >= corridor.left && block.style.x < corridor.right) {
+        console.log('[Corridor] Parent found in corridor [', corridor.left, ',', corridor.right, ']');
         return corridor.parentBlock;
       }
     }
   }
 
+  console.log('[Corridor] No parent found, will attach to root');
   return null;
 }
 
@@ -71,6 +77,7 @@ export function findParent(
  * Build hierarchical structure using corridor algorithm
  */
 export function buildHierarchy(levelGroups: LevelGroup[]): BlockWithLevel {
+  console.log('[Corridor] Building hierarchy from', levelGroups.length, 'level groups');
   if (levelGroups.length === 0) {
     throw new Error('No blocks found');
   }
@@ -80,11 +87,13 @@ export function buildHierarchy(levelGroups: LevelGroup[]): BlockWithLevel {
   root.index = 0;
   root.path = '';
   root.children = [];
+  console.log('[Corridor] Root block set with content:', root.content);
 
   // Process each subsequent level
   for (let level = 1; level < levelGroups.length; level++) {
     const currentLevel = levelGroups[level];
     const upperLevels = levelGroups.slice(0, level);
+    console.log('[Corridor] Processing level', level, 'with', currentLevel.blocks.length, 'blocks');
 
     for (const block of currentLevel.blocks) {
       const parent = findParent(block, upperLevels);
@@ -94,14 +103,17 @@ export function buildHierarchy(levelGroups: LevelGroup[]): BlockWithLevel {
         block.index = parent.children.length + 1;
         block.path = parent.path ? `${parent.path}.${block.index}` : `${block.index}`;
         parent.children.push(block);
+        console.log('[Corridor] Block', block.content, 'assigned to parent', parent.content, 'with path:', block.path);
       } else {
         // No parent found, attach to root
         block.index = root.children.length + 1;
         block.path = `${block.index}`;
         root.children.push(block);
+        console.log('[Corridor] Block', block.content, 'attached to root with path:', block.path);
       }
     }
   }
 
+  console.log('[Corridor] Hierarchy complete, root has', root.children.length, 'direct children');
   return root;
 }

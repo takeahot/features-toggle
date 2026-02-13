@@ -1,7 +1,11 @@
 import type { DiagramBlock } from '../types/diagram';
 
 export function calculateMaxDepth(root: DiagramBlock): number {
-  if (root.children.length === 0) return 0;
+  console.log('[HierarchyBuilder] Calculating max depth for block:', root.content);
+  if (root.children.length === 0) {
+    console.log('[HierarchyBuilder] Block has no children, depth = 0');
+    return 0;
+  }
 
   let maxChildDepth = 0;
   for (const child of root.children) {
@@ -9,10 +13,13 @@ export function calculateMaxDepth(root: DiagramBlock): number {
     maxChildDepth = Math.max(maxChildDepth, childDepth);
   }
 
-  return maxChildDepth + 1;
+  const depth = maxChildDepth + 1;
+  console.log('[HierarchyBuilder] Block depth:', depth);
+  return depth;
 }
 
 export function createFlatList(root: DiagramBlock): DiagramBlock[] {
+  console.log('[HierarchyBuilder] Creating flat list from root:', root.content);
   const result: DiagramBlock[] = [root];
 
   function traverse(block: DiagramBlock) {
@@ -23,5 +30,6 @@ export function createFlatList(root: DiagramBlock): DiagramBlock[] {
   }
 
   traverse(root);
+  console.log('[HierarchyBuilder] Flat list created with', result.length, 'blocks');
   return result;
 }

@@ -77,6 +77,7 @@ class FeaturesToggleViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	private handleMessage(message: any) {
+		console.log('[Extension] Received message:', message.type);
 		switch (message.type) {
 			case 'uploadDiagram':
 				this.handleDiagramUpload(message.data);
@@ -85,13 +86,18 @@ class FeaturesToggleViewProvider implements vscode.WebviewViewProvider {
 	}
 
 	private async handleDiagramUpload(data: { name: string; content: string }) {
+		console.log('[Extension] Starting diagram upload:', data.name);
 		try {
+			console.log('[Extension] Calling parseDiagram...');
 			const result = parseDiagram(data.name, data.content);
+			console.log('[Extension] Parse result:', JSON.stringify(result, null, 2));
 			this.webviewView?.webview.postMessage({
 				type: 'diagramParsed',
 				data: result
 			});
+			console.log('[Extension] Message sent to webview');
 		} catch (error) {
+			console.error('[Extension] Error during diagram parsing:', error);
 			this.webviewView?.webview.postMessage({
 				type: 'diagramParsed',
 				data: { error: error instanceof Error ? error.message : String(error) }
