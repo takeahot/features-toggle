@@ -3,5 +3,11 @@
   "displayName": "Features Toggle",
   "description": "Features toggle extension",
   "version": "1.0.0",
-  "publisher": "ProdWay"
+  "publisher": "ProdWay",
+  "engines": {
+		"vscode": "^1.84.0"
+	},
+  "devDependencies": {
+  "@vscode/vsce": "^3.3.2"
+  }
 }
