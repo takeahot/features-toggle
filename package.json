@@ -9,6 +9,18 @@
     "node": ">=20.19.2",
 		"vscode": "^1.84.0"
 	},
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "featuresToggle.hello",
+        "title": "Say Hello"
+      }
+    ]
+  },
   "devDependencies": {
     "@types/node": "^24.1.0",
     "typescript": "5.8.3",
