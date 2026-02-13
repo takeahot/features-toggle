@@ -1,6 +1,9 @@
 import * as vscode from 'vscode';
+import { parseDiagram } from './parser/diagramParser';
 
 class FeaturesToggleViewProvider implements vscode.WebviewViewProvider {
+	private webviewView?: vscode.WebviewView;
+
 	constructor(
 		private readonly context: vscode.ExtensionContext
 	) {}
@@ -10,6 +13,8 @@ class FeaturesToggleViewProvider implements vscode.WebviewViewProvider {
 		context: vscode.WebviewViewResolveContext,
 		_token: vscode.CancellationToken
 	) {
+		this.webviewView = webviewView;
+
 		webviewView.webview.options = {
 			enableScripts: true,
 			localResourceRoots: [
@@ -18,6 +23,12 @@ class FeaturesToggleViewProvider implements vscode.WebviewViewProvider {
 		};
 
 		webviewView.webview.html = this.getHtmlContent(webviewView.webview);
+
+		webviewView.webview.onDidReceiveMessage(
+			message => this.handleMessage(message),
+			undefined,
+			this.context.subscriptions
+		);
 	}
 
 	private getHtmlContent(webview: vscode.Webview): string {
@@ -63,6 +74,29 @@ class FeaturesToggleViewProvider implements vscode.WebviewViewProvider {
 			text += possible.charAt(Math.floor(Math.random() * possible.length));
 		}
 		return text;
+	}
+
+	private handleMessage(message: any) {
+		switch (message.type) {
+			case 'uploadDiagram':
+				this.handleDiagramUpload(message.data);
+				break;
+		}
+	}
+
+	private async handleDiagramUpload(data: { name: string; content: string }) {
+		try {
+			const result = parseDiagram(data.name, data.content);
+			this.webviewView?.webview.postMessage({
+				type: 'diagramParsed',
+				data: result
+			});
+		} catch (error) {
+			this.webviewView?.webview.postMessage({
+				type: 'diagramParsed',
+				data: { error: error instanceof Error ? error.message : String(error) }
+			});
+		}
 	}
 }
 
