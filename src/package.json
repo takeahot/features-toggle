@@ -12,8 +12,27 @@
   "activationEvents": [
     "onStartupFinished"
   ],
-  "main": "./dist/extension.js",
+  "main": "../dist/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "features-toggle-container",
+          "title": "Features Toggle",
+          "icon": "assets/icon.svg"
+        }
+      ]
+    },
+    "views": {
+      "features-toggle-container": [
+        {
+          "type": "webview",
+          "id": "features-toggle.view",
+          "name": "Features Toggle",
+          "contextualTitle": "Features Toggle"
+        }
+      ]
+    },
     "commands": [
       {
         "command": "featuresToggle.hello",
@@ -22,8 +41,8 @@
     ]
   },
   "scripts": {
-    "build": "node esbuild.mjs",
-    "dev": "node esbuild.mjs --watch",
+    "build": "node ../src/esbuild.mjs",
+    "dev": "node ../src/esbuild.mjs --watch",
     "vsix": "vsce package --no-dependencies --allow-missing-repository --out ../../bin"
   },
   "devDependencies": {

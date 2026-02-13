@@ -14,17 +14,20 @@ const __filename = new URL(import.meta.url).pathname;
 const __dirname = path.dirname(__filename);
 
 const prod = (process.argv[2] === 'production');
-const watch = (process.argv[2] === 'watch');
+const watch = process.argv[2] === '--watch';
+
+console.log('DEBUG: process.argv =', process.argv);
+console.log('DEBUG: watch =', watch);
 
 const srcDir = __dirname;
-const distDir = path.join(srcDir, 'dist');
+const distDir = path.join(__dirname, '../dist');
 
 // Clean dist directory
 if (fs.existsSync(distDir)) {
 	fs.rmSync(distDir, { recursive: true, force: true });
 }
 
-const context = await esbuild.context({
+const buildOptions = {
 	banner: {
 		js: banner,
 	},
@@ -56,13 +59,38 @@ const context = await esbuild.context({
 					if (fs.existsSync(audioSrc)) {
 						fs.cpSync(audioSrc, path.join(distDir, 'webview-ui/audio'), { recursive: true });
 					}
-					
+ 
+					// Copy webview-ui/dist if exists
+					const webviewDistSrc = path.join(srcDir, '../webview-ui/dist');
+					if (fs.existsSync(webviewDistSrc)) {
+						fs.cpSync(webviewDistSrc, path.join(distDir, 'webview-ui/dist'), { recursive: true });
+						console.log(`📄 Copied ${webviewDistSrc} -> ${path.join(distDir, 'webview-ui/dist')}`);
+					}
+ 
+					// Copy src/assets if exists
+					const assetsSrc = path.join(srcDir, 'assets');
+					if (fs.existsSync(assetsSrc)) {
+						fs.cpSync(assetsSrc, path.join(distDir, 'assets'), { recursive: true });
+						console.log(`📄 Copied ${assetsSrc} -> ${path.join(distDir, 'assets')}`);
+					}
+ 
 					// Copy files
 					for (const { src, dest } of filesToCopy) {
 						if (fs.existsSync(src)) {
 							fs.copyFileSync(src, dest);
 							console.log(`📄 Copied ${src} -> ${dest}`);
 						}
+					}
+
+					// Copy and modify package.json for dist directory
+					const packageJsonSrc = path.join(srcDir, 'package.json');
+					const packageJsonDest = path.join(distDir, 'package.json');
+					if (fs.existsSync(packageJsonSrc)) {
+						const packageJson = JSON.parse(fs.readFileSync(packageJsonSrc, 'utf-8'));
+						// Fix the main path for dist directory
+						packageJson.main = 'extension.js';
+						fs.writeFileSync(packageJsonDest, JSON.stringify(packageJson, null, 2));
+						console.log(`📄 Copied and modified ${packageJsonSrc} -> ${packageJsonDest}`);
 					}
 				});
 			},
@@ -83,7 +111,7 @@ const context = await esbuild.context({
 			},
 		},
 	],
-	entryPoints: ['extension.ts'],
+	entryPoints: ['src/extension.ts'],
 	bundle: true,
 	external: [
 		'vscode',
@@ -101,7 +129,7 @@ const context = await esbuild.context({
 		'buffer',
 		'tty',
 		'net',
-		'tls',
+		'ls',
 		'zlib',
 		'querystring'
 	],
@@ -112,31 +140,16 @@ const context = await esbuild.context({
 	platform: 'node',
 	outfile: 'dist/extension.js',
 	logLevel: "info",
-});
+};
 
 if (watch) {
 	console.log('👀 Watch mode enabled. Building...');
 	
-	await context.watch();
+	const ctx = await esbuild.context(buildOptions);
+	await ctx.watch();
 	
-	// Listen for rebuild events
-	context.watch().then(() => {
-		console.log('🔄 Watching for file changes...');
-	});
-	
-	// Handle rebuild events
-	context.onEnd = (result) => {
-		if (result.errors.length === 0) {
-			console.log('✅ Build completed successfully');
-		} else {
-			console.log('❌ Build failed with errors');
-		}
-	};
-	
-	// Keep the process alive
 	console.log('🚀 Watch mode is running. Press Ctrl+C to stop.');
 } else {
-	await context.rebuild();
-	await context.dispose();
+	await esbuild.build(buildOptions);
 	process.exit(0);
 }

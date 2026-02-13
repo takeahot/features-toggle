@@ -6,24 +6,24 @@
       "type": "extensionHost",
       "request": "launch",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}"
+        "--extensionDevelopmentPath=${workspaceFolder}/dist"
       ],
       "outFiles": [
         "${workspaceFolder}/dist/extension.js"
       ],
-      "preLaunchTask": "npm: dev"
+      "preLaunchTask": "pnpm run build"
     },
     {
       "name": "Run Extension (Watch)",
       "type": "extensionHost",
       "request": "launch",
       "args": [
-        "--extensionDevelopmentPath=${workspaceFolder}"
+        "--extensionDevelopmentPath=${workspaceFolder}/dist"
       ],
       "outFiles": [
         "${workspaceFolder}/dist/extension.js"
       ],
-      "preLaunchTask": "npm: dev"
+      "preLaunchTask": "pnpm run build"
     }
   ]
 }

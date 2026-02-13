@@ -3,8 +3,9 @@
   "tasks": [
     {
       "label": "pnpm run build",
-      "type": "npm",
-      "script": "run build",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "build"],
       "group": {
         "kind": "build",
         "isDefault": true
@@ -16,8 +17,9 @@
     },
     {
       "label": "npm: dev",
-      "type": "npm",
-      "script": "dev",
+      "type": "shell",
+      "command": "npm",
+      "args": ["run", "dev"],
       "isBackground": true,
       "problemMatcher": {
         "owner": "custom",
