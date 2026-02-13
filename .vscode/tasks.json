@@ -4,7 +4,7 @@
     {
       "label": "pnpm run build",
       "type": "shell",
-      "command": "npm",
+      "command": "pnpm",
       "args": ["run", "build"],
       "group": {
         "kind": "build",
@@ -13,12 +13,12 @@
       "presentation": {
         "reveal": "silent"
       },
-      "problemMatcher": "$tsc"
+      "problemMatcher": []
     },
     {
       "label": "npm: dev",
       "type": "shell",
-      "command": "npm",
+      "command": "pnpm",
       "args": ["run", "dev"],
       "isBackground": true,
       "problemMatcher": {
