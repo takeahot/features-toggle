@@ -1,9 +1,31 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 
 import { vscode } from './utils/vscode';
 
 function App() {
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const [parsedData, setParsedData] = useState<any>(null);
+	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		const handleMessage = (event: MessageEvent) => {
+			const message = event.data;
+			switch (message.type) {
+				case 'diagramParsed':
+					if (message.data.error) {
+						setError(message.data.error);
+						setParsedData(null);
+					} else {
+						setParsedData(message.data);
+						setError(null);
+					}
+					break;
+			}
+		};
+
+		window.addEventListener('message', handleMessage);
+		return () => window.removeEventListener('message', handleMessage);
+	}, []);
 
 	const handleUploadClick = () => {
 		fileInputRef.current?.click();
