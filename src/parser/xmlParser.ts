@@ -20,10 +20,12 @@ export function parseDrawioXml(xmlContent: string): MxFile {
 
 export function extractVertexCells(mxFile: MxFile): MxCell[] {
   console.log('[XmlParser] Extracting vertex cells...');
+  console.log('[XmlParser] MxFile keys:', Object.keys(mxFile));
+  
   // Navigate to mxCell elements and filter by vertex="1"
   // Handle both single cell and array of cells
   // Return array of vertex cells
-  const diagram = mxFile.mxFile?.diagram;
+  const diagram = mxFile.mxfile?.diagram;
   console.log('[XmlParser] Diagram found:', !!diagram);
   if (!diagram) return [];
 
@@ -39,7 +41,7 @@ export function extractVertexCells(mxFile: MxFile): MxCell[] {
     : [graphModel.root.mxCell];
   console.log('[XmlParser] Total cells before filter:', cells.length);
 
-  const vertexCells = cells.filter(cell => cell.vertex === '1');
+  const vertexCells = cells.filter((cell: MxCell) => cell.vertex === '1');
   console.log('[XmlParser] Vertex cells found:', vertexCells.length);
   return vertexCells;
 }

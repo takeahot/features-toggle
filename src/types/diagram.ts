@@ -29,7 +29,7 @@ export interface DiagramStructure {
 
 export interface MxCell {
   id: string;
-  parent: string;
+  parent?: string;
   style?: string;
   value?: string;
   vertex?: string;
@@ -39,7 +39,7 @@ export interface MxCell {
     y?: number;
     width?: number;
     height?: number;
-    '@_as'?: string;
+    as?: string;
   };
 }
 
@@ -54,7 +54,10 @@ export interface Diagram {
 }
 
 export interface MxFile {
-  mxFile?: {
+  mxfile?: {
+    host?: string;
+    agent?: string;
+    version?: string;
     diagram?: {
       mxGraphModel?: MxGraphModel;
     } | {
