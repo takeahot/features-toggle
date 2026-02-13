@@ -51,6 +51,10 @@
     "typescript": "5.8.3",
     "@vscode/vsce": "^3.3.2"
   },
+  "dependencies": {
+    "fast-xml-parser": "^4.5.0",
+    "he": "^1.2.0"
+  },
   "pnpm": {
     "overrides": {
       "esbuild": ">=0.25.0"

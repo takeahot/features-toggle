@@ -1,0 +1,40 @@
+# Зависимости
+node_modules/
+.pnp
+.pnp.js
+vendor/
+
+# Сборки и логи
+dist/
+build/
+out/
+.next/
+.nuxt/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Базы данных и кэш
+*.sqlite
+.DS_Store
+.env*
+.cache/
+.eslintcache
+
+# Тяжелая статика (агенту нечего делать в картинках)
+public/images/
+assets/images/
+*.svg
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.ico
+*.mp4
+*.pdf
+
+# Локи пакетов (огромные файлы, которые агенту читать нельзя)
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
