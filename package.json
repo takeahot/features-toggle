@@ -1,26 +1,18 @@
 {
   "name": "features-toggle",
-  "displayName": "Features Toggle",
-  "description": "Features toggle extension",
   "version": "1.0.0",
+  "private": true,
+  "description": "Features toggle VS Code extension with webview UI",
   "publisher": "ProdWay",
   "packageManager": "pnpm@10.8.1",
   "engines": {
     "node": ">=20.19.2",
-		"vscode": "^1.84.0"
-	},
-  "activationEvents": [
-    "onStartupFinished"
-  ],
-  "main": "./dist/extension.js",
-  "contributes": {
-    "commands": [
-      {
-        "command": "featuresToggle.hello",
-        "title": "Say Hello"
-      }
-    ]
+    "vscode": "^1.84.0"
   },
+  "workspaces": [
+    "src",
+    "webview-ui"
+  ],
   "scripts": {
     "build": "node esbuild.mjs",
     "dev": "node esbuild.mjs --watch",
@@ -33,8 +25,8 @@
     "@vscode/vsce": "^3.3.2"
   },
   "pnpm": {
-		"overrides": {
-			"esbuild": ">=0.25.0"
-		}
-	}
+    "overrides": {
+      "esbuild": ">=0.25.0"
+    }
+  }
 }
