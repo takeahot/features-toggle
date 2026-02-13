@@ -12,6 +12,14 @@ function App() {
 	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
+			// Validate file extension
+			if (!file.name.endsWith('.drawio')) {
+				vscode.postMessage({
+					type: 'error',
+					data: { message: 'Please select a .drawio file' }
+				});
+				return;
+			}
 			const reader = new FileReader();
 			reader.onload = () => {
 				vscode.postMessage({
