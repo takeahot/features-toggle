@@ -3,5 +3,23 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "description": "Webview UI for Features Toggle extension"
+  "description": "Webview UI for Features Toggle extension",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@vscode/codicons": "^0.0.36"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "typescript": "^5.8.3",
+    "vite": "^6.0.7"
+  }
 }
